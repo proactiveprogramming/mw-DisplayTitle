@@ -2,7 +2,7 @@
 Mediawiki Extension fork of DisplayTitle
 
 ## About
-See (https://www.mediawiki.org/wiki/Extension:Display_Title)[Mediawiki Extension:DisplayTitle]
+See [Mediawiki Extension:DisplayTitle](https://www.mediawiki.org/wiki/Extension:Display_Title)
 
 ## Installation
 
