@@ -5,6 +5,7 @@ This extension builds on functionality in MediaWiki core that supports setting a
 
 Url: https://www.mediawiki.org/wiki/Extension:Display_Title
 
+There are no changes from the official DisplayTitle 3.2, because our changes were incorporated into the most recent version.  
 ## Installation
 - Download and place the file(s) in a directory called DisplayTitle in your extensions/ folder.
 - Add the following code at the bottom of your LocalSettings.php:
@@ -19,6 +20,7 @@ Url: https://www.mediawiki.org/wiki/Extension:Display_Title
 Configuration flag 	Default value 	Description
 - $wgDisplayTitleHideSubtitle -	false - If false, display the page's original title as a subtitle below the title bar.
 - $wgDisplayTitleExcludes[] - An array of names of pages that should not have their page names replaced with their display title in links to the page. 
+- wgDisplayTitleFollowRedirects - true - 
 
 In order for DisplayTitles to function correctly, the following configurations need to be set.
 
@@ -40,15 +42,10 @@ There are also some installation configurations you need to set.  See the Displa
     {{#invoke:DisplayTitle|get|My Page}} 
     
 ## Version History
-### Version 3.2.1
-    MediaWiki Version: 1.39.x LTS
-    Author: Melissa Janine Newman (Proactive Programming)
-
-- Removed the changing of the display title for redirects.  If a redirect (old article) has DISPLAYTITLE set, that will be displayed.  But the extension will no longer display to the redirected title.  The reason for this change is that this version of the extension was written for a project where a whole family of articles all redirect to a main article, but we want to be able to display different DISPLAYTITLE's for each redirected article.  Running and ran both redirect to run, but we are working with Hebrew where we want to display vowels, but not have vowels in the official article title.
-    
 
 ### Version 3.2
 - Added Hebrew translation
+- Added option wgDisplayTitleFollowRedirects 
 
 ### Version 3.1
 - Fix incompatibility with the Cite extension
