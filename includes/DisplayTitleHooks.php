@@ -45,8 +45,7 @@ class DisplayTitleHooks {
 	 * @param Title $title the Title object of the current article
 	 * @param SkinTemplate $skin SkinTemplate object providing context
 	 */
-	public static function onPersonalUrls( array &$personal_urls, Title $title,
-		SkinTemplate $skin ) {
+	public static function onSkinTemplateNavigationUniversal( SkinTemplate $skin, array &$personal_urls ) {
 		if ( $skin->getUser()->isRegistered() &&
 			isset( $personal_urls['userpage'] ) ) {
 			$pagename = $personal_urls['userpage']['text'];
@@ -256,16 +255,27 @@ class DisplayTitleHooks {
 		}
 
 		$originalPageName = $title->getPrefixedText();
-		$wikipage = new WikiPage( $title );
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MW 1.36+
+			$wikipage = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
+		} else {
+			$wikipage = new WikiPage( $title );
+		}
 		$redirect = false;
-		// mjn - removed showing redirect link.  Do not want for our purposes.	
-		//$redirectTarget = $wikipage->getRedirectTarget();
-		//if ( $redirectTarget !== null ) {
-		//	$redirect = true;
-		//	$title = $redirectTarget;
-		//}
+		if ( $GLOBALS['wgDisplayTitleFollowRedirects'] ) {
+			$redirectTarget = $wikipage->getRedirectTarget();
+			if ( $redirectTarget !== null ) {
+				$redirect = true;
+				$title = $redirectTarget;
+			}
+		}
 		$id = $title->getArticleID();
-		$values = PageProps::getInstance()->getProperties( $title, 'displaytitle' );
+		if ( method_exists( MediaWikiServices::class, 'getPageProps' ) ) {
+			// MW 1.36+
+			$values = MediaWikiServices::getInstance()->getPageProps()->getProperties( $title, 'displaytitle' );
+		} else {
+			$values = PageProps::getInstance()->getProperties( $title, 'displaytitle' );
+		}
 		if ( array_key_exists( $id, $values ) ) {
 			$value = $values[$id];
 			if ( trim( str_replace( '&#160;', '', strip_tags( $value ) ) ) !== '' &&
